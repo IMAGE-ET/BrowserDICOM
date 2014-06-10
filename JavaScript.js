@@ -113,7 +113,7 @@ function renderTextBox(e) {
             //alert((e.layerX + upLeftX) * (realWidth / totalWidth) + ";" + (e.layerY + upLeftY) * (realHeight / totalHeight));
             $.ajax({
                 type: "POST",
-                url: "Default6.aspx",
+                url: "addAnnotation.aspx",
                 data: {
                     "x": Math.round((e.layerX + upLeftX) * (realWidth / totalWidth)),
                     "y": Math.round((e.layerY + upLeftY) * (realHeight / totalHeight)),
@@ -122,7 +122,7 @@ function renderTextBox(e) {
                 },
                 success: function() {
                     $.ajax({
-                        url: "Default5.aspx?fileName=" + fileName,
+                        url: "getAnnotations.aspx?fileName=" + fileName,
                         dataType: "json",
                         success: function (d) {
                             annotations = d.annotations;
@@ -185,7 +185,7 @@ function setContrast(c) {
 function showList() {
     //Grab the list of files from the server.
     $.ajax({
-        url: "Default3.aspx",
+        url: "getFiles.aspx",
         dataType: "json",
         success: function(data) {
             var fileArray = data.files;
@@ -244,7 +244,7 @@ function loadPicture() {
     $('#hiddenImage').load(function () {
         //Get real image width/height for annotations.
         $.ajax({
-            url: "Default4.aspx?fileName=" + fileName,
+            url: "getDimensions.aspx?fileName=" + fileName,
             dataType: "json",
             //async: false,
             success: function (data) {
@@ -252,7 +252,7 @@ function loadPicture() {
                 realHeight = data.y;
                 //Get the annotations.
                 $.ajax({
-                    url: "Default5.aspx?fileName=" + fileName,
+                    url: "getAnnotations.aspx?fileName=" + fileName,
                     dataType: "json",
                     success: function(d) {
                         annotations = d.annotations;
@@ -265,7 +265,7 @@ function loadPicture() {
         setImageParameters(brightness, contrast, red, green, blue);
     });
     //Load the picture.
-    $('#hiddenImage').attr("src", "Default2.aspx?viewPortX=" + parseInt($("#mainCanvas")[0].clientWidth) +
+    $('#hiddenImage').attr("src", "getImage.aspx?viewPortX=" + parseInt($("#mainCanvas")[0].clientWidth) +
         "&viewPortY=" + parseInt($("#mainCanvas")[0].clientHeight) +
         "&zoomLevel=" + zoom +
         "&fileName=" + fileName);
